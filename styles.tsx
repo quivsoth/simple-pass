@@ -1,58 +1,67 @@
 import { StyleSheet } from 'react-native';
-import { Quicksand_700Bold } from "@expo-google-fonts/quicksand";
-import { useFonts } from "expo-font";
+import { Quicksand_700Bold } from '@expo-google-fonts/quicksand';
+import { useFonts } from 'expo-font';
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     row: {
-        flexDirection: "row",
+        flexDirection: 'row',
     },
     column: {
-        flexDirection: "column",
+        flexDirection: 'column',
+    },
+    image : {
+        height: 50,
+        width: 50,
     },
     input: {
         marginTop: 12,
         marginBottom: 20,
         marginHorizontal: 22,
         paddingHorizontal: 24,
-        width: "85%",
+        width: '85%',
         //fontFamily: 'Quicksand-Bold',
         fontSize: 15,
         textAlign: 'left',
-        alignContent: "center",
-        justifyContent: "center",
+        alignContent: 'center',
+        justifyContent: 'center',
     },
     modal: {
-        borderColor: "grey",
-        borderStyle: "solid",
+        borderColor: 'grey',
+        borderStyle: 'solid',
         borderWidth: 1,
-        backgroundColor: "#FFF",
-        width: "90%",
-        height: "90%",
+        backgroundColor: '#FFF',
+        width: '90%',
+        height: '90%',
         marginHorizontal: 15,
         padding: 30,
         borderRadius: 10,
-        justifyContent: "flex-start",
+        justifyContent: 'flex-start',
         paddingBottom: 32
     },
     pressable: {
-        backgroundColor: "#F6F6F6",
+        backgroundColor: '#F6F6F6',
         padding: 27,
         marginBottom: 15,
         marginHorizontal: 20,
-        justifyContent: "center",
+        justifyContent: 'center',
         borderRadius: 10,
-        borderColor: "silver",
-        borderStyle: "solid",
+        borderColor: 'silver',
+        borderStyle: 'solid',
         borderWidth: 1,
     },
+    pwIcon : {        
+
+
+
+    },
     square: {
-        borderColor: "rgb(120, 69, 172)",
-        borderStyle: "solid",
+        borderColor: 'rgb(120, 69, 172)',
+        borderStyle: 'solid',
         borderWidth: 1,
-        backgroundColor: "rgb(237, 221, 246)",
+        backgroundColor: 'rgb(237, 221, 246)',
         width: 100,
         height: 100,
         margin: 14,
@@ -60,14 +69,14 @@ export const styles = StyleSheet.create({
     },
     quicksand: {
         fontSize: 20,
-        //fontFamily: "Quicksand_700Bold",
+        //fontFamily: 'Quicksand_700Bold',
     },
     title: {
         marginTop: 12,
         marginBottom: 20,
         paddingHorizontal: 24,
         fontSize: 20,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         textAlign: 'center',
     },
 });

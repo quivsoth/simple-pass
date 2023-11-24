@@ -42,8 +42,9 @@ function Search({ navigation }) {
 
     
 
-    const copyToClipboard = async () => {
-        await Clipboard.setStringAsync('hello world');
+    const copyToClipboard = async (button) => {
+        console.log(button);
+        await Clipboard.setStringAsync(selectedSite.secret);
       };
 
 
@@ -100,7 +101,7 @@ function Search({ navigation }) {
                         for (var i = 0; i < length; i++) { result.push(resultSet.rows.item(i)); }
                         setPayload(result);
                     }, (error) => {
-                        console.log("DATABASE ERROR", error);
+                        console.log("\u001b[1;31m DATABASE ERROR", "\x1b[30m", error);
                     }
                 )
             });
@@ -138,7 +139,7 @@ function Search({ navigation }) {
 
                                 <View style={{ flexDirection: "column" }}>
                                     <Pressable style={[styles.square, { justifyContent: "center", alignItems: 'center' }]}
-                                        onPress={copyToClipboard}>
+                                        onPress={ () => {copyToClipboard(this)}}>
                                         <Icon color="black" source="clipboard-multiple-outline" size={55} />
                                     </Pressable>
                                     <Text style={{ justifyContent: "center", alignItems: 'center', textAlign: "center", fontSize: 12 }}>CLIPBOARD</Text>
