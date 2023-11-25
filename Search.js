@@ -5,17 +5,17 @@
  * @format
  */
 
-import React, { version } from 'react';
-import { styles } from './styles';
+import React from 'react';
 import {
     FlatList,
     Pressable,
-    SafeAreaView,
     View,
 } from 'react-native';
+
+import { styles } from './styles';
+import StyledButton from './StyledButton';
+
 import * as SQLite from 'expo-sqlite';
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
 import uuid from 'react-native-uuid';
 import * as Clipboard from 'expo-clipboard';
 import {
@@ -29,7 +29,6 @@ import {
     withTheme
 } from 'react-native-paper';
 
-
 function Search({ navigation }) {
 
     const [searchText, setSearchText] = React.useState('');
@@ -39,14 +38,10 @@ function Search({ navigation }) {
     const [enc, setEnc] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
 
-
-    
-
     const copyToClipboard = async (button) => {
         console.log(button);
         await Clipboard.setStringAsync(selectedSite.secret);
       };
-
 
     const toggleShowPassword = () => { 
         setShowPassword(!showPassword);
@@ -57,13 +52,6 @@ function Search({ navigation }) {
     const theme = useTheme();
 
     async function openDatabase() {
-        if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + "SQLite")).exists) {
-            await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite");
-        }
-        await FileSystem.downloadAsync(
-            Asset.fromModule(require("./assets/database/arcticfox.db")).uri,
-            FileSystem.documentDirectory + "SQLite/arcticfox.db"
-        );
         return SQLite.openDatabase("arcticfox.db", "1.0");
     }
 
@@ -89,6 +77,7 @@ function Search({ navigation }) {
     );
 
     React.useEffect(function () {
+        setShowPassword(!showPassword);
         setEnc(uuid.v4().slice(0, 13));
         openDatabase().then((db) => {
             const result = [];
@@ -127,23 +116,8 @@ function Search({ navigation }) {
                             <Text style={{ padding: 10 }}>The password will only be shown in encrypted format. You can reveal it by pressing on the eye icon or you can copy it to directly to the Clipboard.</Text>
                             <Text style={{ padding: 10 }}><Text style={{ color: "red" }}>Warning : </Text>copying to the Clipboard only hides it from the screen. Password can still be viewed by pasting it.</Text>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                <View style={{ flexDirection: "column" }}>
-                                    <Pressable style={[styles.square, { justifyContent: "center", alignItems: 'center' }]}
-                                        onPress={() => {
-                                            toggleShowPassword()
-                                        }}>
-                                        <Icon color="black" source="eye" size={55} />
-                                    </Pressable>
-                                    <Text style={{ justifyContent: "center", alignItems: 'center', textAlign: "center", fontSize: 12 }}>REVEAL</Text>
-                                </View>
-
-                                <View style={{ flexDirection: "column" }}>
-                                    <Pressable style={[styles.square, { justifyContent: "center", alignItems: 'center' }]}
-                                        onPress={ () => {copyToClipboard(this)}}>
-                                        <Icon color="black" source="clipboard-multiple-outline" size={55} />
-                                    </Pressable>
-                                    <Text style={{ justifyContent: "center", alignItems: 'center', textAlign: "center", fontSize: 12 }}>CLIPBOARD</Text>
-                                </View>
+                                <StyledButton icon={"eye"} iconSize={55} buttonText={"reveal"} onPress={() => { toggleShowPassword() }} />
+                                <StyledButton icon={"clipboard-multiple-outline"} iconSize={55} buttonText={"CLIPBOARD"} onPress={ () => {copyToClipboard(this)}} />
                             </View>
                         </View>
                     </Modal>

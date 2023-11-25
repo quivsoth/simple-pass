@@ -20,19 +20,7 @@ function AddSite({ navigation }) {
 
     const toggleShowPassword = () => { setShowPassword(!showPassword); };
     const openDb = async() => { 
-
-            if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + "SQLite")).exists) {
-                await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "SQLite");
-            }
-            await FileSystem.downloadAsync(
-                Asset.fromModule(require("./assets/database/arcticfox.db")).uri,
-                FileSystem.documentDirectory + "SQLite/arcticfox.db"
-            ).then(() => {
-                   console.log("D");
-            });
             return SQLite.openDatabase("arcticfox.db", "1.0"); 
-
-        
          }
     const onSubmit = data => AddCredentials(data)
 

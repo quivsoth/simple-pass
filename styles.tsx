@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgb(237, 221, 246)',
         width: 100,
         height: 100,
-        margin: 14,
+        
         borderRadius: 10
     },
     quicksand: {
