@@ -18,7 +18,7 @@ function FrontPage({ navigation }) {
                     <StyledButton icon={"magnify"} iconSize={55} buttonText={"Search"} onPress={() => navigation.navigate('Search')} />
                     <StyledButton icon={"cog"} iconSize={55} buttonText={"Settings"} onPress={() => navigation.navigate('')} />
                 </View>
-            </View>
+            </View>            
         </>
     )
 }

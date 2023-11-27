@@ -2,16 +2,21 @@ import React from "react"
 import { Image, Pressable, View, } from "react-native"
 import { Button, Icon, Text, TextInput, useTheme, withTheme } from 'react-native-paper';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
+
+
 import * as SQLite from 'expo-sqlite';
 import styles from './styles';
+//-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 const ERROR_MESSAGES = {
     REQUIRED: "Required",
     NAME_INVALID: "Not a Valid Name",
 }
 
+
+
+
+//-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function AddSite({ navigation }) {
 
     const theme = useTheme();
@@ -19,9 +24,7 @@ function AddSite({ navigation }) {
     const [isSubmit, setIsSubmit] = React.useState(false);
 
     const toggleShowPassword = () => { setShowPassword(!showPassword); };
-    const openDb = async() => { 
-            return SQLite.openDatabase("arcticfox.db", "1.0"); 
-         }
+    const openDb = async() => {  return SQLite.openDatabase("arcticfox.db", "1.0");  }
     const onSubmit = data => AddCredentials(data)
 
     const AddCredentials = async (data) => {
@@ -79,9 +82,7 @@ function AddSite({ navigation }) {
 
                     {/* <View> */}
                     <Image style={styles.image} source={require('./assets/images/checkmark.png')} />
-
                     <Text style={{marginBottom: 20}}>Your new credentials have been added! Would you like to add another credential?</Text>
-
 
                     <Button
                         mode="contained"
@@ -90,7 +91,6 @@ function AddSite({ navigation }) {
                         icon="rename-box">
                         New Credential
                     </Button>
-
                 </View>
 
             ) : null}

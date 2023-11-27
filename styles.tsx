@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+        fontFamily: 'Quicksand-Regular'
     },
     row: {
         flexDirection: 'row',
@@ -22,8 +23,8 @@ export const styles = StyleSheet.create({
         marginHorizontal: 22,
         paddingHorizontal: 24,
         width: '85%',
-        //fontFamily: 'Quicksand-Bold',
         fontSize: 15,
+        fontFamily: 'Quicksand',
         textAlign: 'left',
         alignContent: 'center',
         justifyContent: 'center',
@@ -52,24 +53,18 @@ export const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 1,
     },
-    pwIcon : {        
-
-
-
-    },
+    pwIcon : { },
     square: {
         borderColor: 'rgb(120, 69, 172)',
         borderStyle: 'solid',
         borderWidth: 1,
         backgroundColor: 'rgb(237, 221, 246)',
         width: 100,
-        height: 100,
-        
+        height: 100,        
         borderRadius: 10
     },
-    quicksand: {
-        fontSize: 20,
-        //fontFamily: 'Quicksand_700Bold',
+    quicksand: {        
+        fontFamily: 'Quicksand'        
     },
     title: {
         marginTop: 12,
@@ -80,4 +75,6 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+
+
 export default styles;
