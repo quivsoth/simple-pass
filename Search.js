@@ -8,6 +8,7 @@
 import React from 'react';
 import { FlatList, Pressable, View, } from 'react-native';
 import { Text, TextInput, withTheme } from 'react-native-paper';
+import Svg, { Circle, Rect } from 'react-native-svg';
 
 import * as SQLite from 'expo-sqlite';
 import { styles } from './styles';
@@ -17,31 +18,36 @@ import { styles } from './styles';
 
 
 
+
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function Search({ navigation }) {
 
     const [searchText, setSearchText] = React.useState('');
+    const [hasText, setHasText] = React.useState(false);
     const [payload, setPayload] = React.useState([]);
 
+    async function openDatabase() { return SQLite.openDatabase("arcticfox.db", "1.0"); }
 
-    async function openDatabase() {
-        return SQLite.openDatabase("arcticfox.db", "1.0");
-    }
-
-     
     const renderItem = ({ item }) => {
-        return (                
+        return (
             <Item item={item} onPress={() => { navigation.navigate('ResultItem', { item }) }} />
         );
     };
 
     const Item = ({ item, onPress }) => (
-        <Pressable style={[styles.pressable]} onPress={onPress} >
-            <Text style={[styles.quicksand, { textAlign: "center", textTransform: 'uppercase' }]}>{item.sitename}</Text>
-        </Pressable>
-    );
+        <View style={[{flex: 'row', alignItems: 'stretch', justifyContent: 'center'}]}>
+        <Pressable style={styles.pressable} onPress={onPress} >
+            <View style={{alignSelf: 'flex-start', backgroundColor: '#FF0', width: 60, height: 60, borderRadius: 200 / 2 }}>
+                <Text style={[styles.text, ]}>GO</Text>
+            </View>
 
-    
+            <View style={{alignSelf: 'flex-end', backgroundColor: '#FF0'}}>
+                <Text style={[styles.quicksand, { alignSelf: 'center', justifyContent: 'center', textAlign: "center", textTransform: 'uppercase',  }]}>{item.sitename}</Text>
+            </View>
+
+        </Pressable>
+        </View>
+    );
 
     React.useEffect(function () {
         openDatabase().then((db) => {
@@ -62,20 +68,16 @@ function Search({ navigation }) {
         });
     }, []);
 
-    
-
-    React.useCallback(() => {
-        console.log("searchText")
-        console.log(searchText)
-
-      }, [searchText]);
-
+    React.useEffect(function () {
+        if (searchText.length > 0) setHasText(true);
+        if (searchText.length == 0) setHasText(false);
+    }, [searchText]);
 
     return (
         <>
             <View style={[styles.row, { justifyContent: "center" }]}>
-                <Text style={[styles.title, {paddingTop: 20}]}>Simple Pass</Text>                
-            </View> 
+                <Text style={[styles.title, { paddingTop: 20 }]}>Simple Pass</Text>
+            </View>
             <View style={[styles.row, { justifyContent: "center" }]}>
                 <TextInput
                     style={styles.input}
@@ -84,10 +86,17 @@ function Search({ navigation }) {
                     value={searchText}
                 />
             </View>
-            <FlatList
-                data={payload.filter((data) => data.sitename.includes(searchText.toLowerCase()))}
-                renderItem={renderItem}
-            />                                    
+       
+
+            {hasText ? (
+                <FlatList
+                    data={payload.filter((data) => data.sitename.includes(searchText.toLowerCase()))}
+                    renderItem={renderItem} />
+            ) : null}
+
+            
+
+
         </>
     )
 }

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { Quicksand_700Bold } from '@expo-google-fonts/quicksand';
 import { useFonts } from 'expo-font';
 
-export const styles = StyleSheet.create({
+export const styles = StyleSheet.create({    
     container: {
         flex: 1,
         fontFamily: 'Quicksand-Regular'
@@ -29,26 +29,12 @@ export const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
     },
-    modal: {
-        borderColor: 'grey',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        backgroundColor: '#FFF',
-        width: '90%',
-        height: '90%',
-        marginHorizontal: 15,
-        padding: 30,
-        borderRadius: 10,
-        justifyContent: 'flex-start',
-        paddingBottom: 32
-    },
     pressable: {
         backgroundColor: '#F6F6F6',
         padding: 27,
-        marginBottom: 15,
-        marginHorizontal: 20,
-        justifyContent: 'center',
-        borderRadius: 10,
+        marginBottom: 5,
+        marginHorizontal: 0,
+        // borderRadius: 10,
         borderColor: 'silver',
         borderStyle: 'solid',
         borderWidth: 1,

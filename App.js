@@ -3,7 +3,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Text, withTheme } from 'react-native-paper';
+import { withTheme } from 'react-native-paper';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { Asset } from 'expo-asset';
@@ -31,7 +31,6 @@ const Stack = createNativeStackNavigator();
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function App() {
-
 
   const [fontsLoaded] = useFonts({ 'Quicksand': require('./assets/fonts/Quicksand-Regular.ttf'),});
 
