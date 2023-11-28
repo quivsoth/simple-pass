@@ -35,16 +35,12 @@ function App() {
   const [fontsLoaded] = useFonts({ 'Quicksand': require('./assets/fonts/Quicksand-Regular.ttf'),});
 
   const onLayoutRootView = React.useCallback(async () => {
-    copyPrepopDB();
+    //copyPrepopDB();
     if (fontsLoaded) { await SplashScreen.hideAsync(); }
   }, [fontsLoaded]);
-
   if (!fontsLoaded) { return null; }
 
-  // React.useEffect(function () { copyPrepopDB(); }, []);
-
   return (
-
     <View style={[styles.container, styles.quicksand]} onLayout={onLayoutRootView}>
       <NavigationContainer >
         <Stack.Navigator>
