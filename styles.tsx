@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Quicksand',
     },
     pressable: {
-        backgroundColor: '#F6F6F6',
+        backgroundColor: '#EADFFF',
         padding: 20,
         marginBottom: 5,
         marginHorizontal: 0,
