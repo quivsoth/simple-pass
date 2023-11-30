@@ -69,7 +69,7 @@ function ResultItem({ route, navigation }) {
                 tx.executeSql( sql, params,
                     (tx, resultSet) => {
                         console.log("Status : ", resultSet);
-                        console.log("Success", "Credentials created successfully.");
+                        console.log("Success", "Credentials successfully.");
                         setEditMode(false);
                     }, (error) => {
                         console.log( "\u001b[1;31m", error );

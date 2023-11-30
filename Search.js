@@ -9,6 +9,7 @@ import React from 'react';
 import { FlatList, Pressable, View, } from 'react-native';
 import { Image } from 'expo-image';
 import { Icon, Text, TextInput, withTheme } from 'react-native-paper';
+import { getSites } from './Database';
 
 import * as SQLite from 'expo-sqlite';
 import { styles } from './styles';
@@ -57,22 +58,29 @@ function Search({ navigation }) {
     );
 
     React.useEffect(function () {
-        openDatabase().then((db) => {
-            const result = [];
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "SELECT * FROM sites",
-                    [],
-                    (tx, resultSet) => {
-                        var length = resultSet.rows.length;
-                        for (var i = 0; i < length; i++) { result.push(resultSet.rows.item(i)); }
-                        setPayload(result);
-                    // }, (error) => {
-                        //console.log("\u001b[1;31m DATABASE ERROR", "\x1b[30m", error);
-                    }
-                )
-            });
+
+        getSites().then((result) => {
+            console.log('result::: ', result);
+            
+            setPayload(result);
         });
+      
+        // openDatabase().then((db) => {
+        //     const result = [];
+        //     db.transaction((tx) => {
+        //         tx.executeSql(
+        //             "SELECT * FROM sites",
+        //             [],
+        //             (tx, resultSet) => {
+        //                 var length = resultSet.rows.length;
+        //                 for (var i = 0; i < length; i++) { result.push(resultSet.rows.item(i)); }
+        //                 setPayload(result);
+        //             // }, (error) => {
+        //                 //console.log("\u001b[1;31m DATABASE ERROR", "\x1b[30m", error);
+        //             }
+        //         )
+        //     });
+        // });
     }, []);
 
     React.useEffect(function () {
