@@ -1,45 +1,37 @@
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { withTheme } from 'react-native-paper';
-import * as SplashScreen from 'expo-splash-screen';
+import { Icon, withTheme } from 'react-native-paper';
 
+import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { init, getSites } from './Database';
+
+import { init, getSites, insertSiteCredentials } from './Database';
 
 import { styles } from './styles';
-
 // import FrontPage from './FrontPage';
 import Search from './Search';
 import AddSite from './AddSite';
 import ResultItem from './ResultItem';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-// async function copyPrepopDB() {
-//   if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-//     await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
-//   }
-//   await FileSystem.downloadAsync(Asset.fromModule(require("./assets/database/arcticfox.db")).uri, FileSystem.documentDirectory + 'SQLite/arcticfox.db')
-//   return SQLite.openDatabase('arcticfox.db');
-// }
 
 const Stack = createNativeStackNavigator();
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function App() {
 
-  const [fontsLoaded] = useFonts({ 'Quicksand': require('./assets/fonts/Quicksand-Regular.ttf'),});
+  const [fontsLoaded] = useFonts({ 'Quicksand': require('./assets/fonts/Quicksand-Regular.ttf'), });
 
   const onLayoutRootView = React.useCallback(async () => {
-    // copyPrepopDB();
 
-    // await init();
-   
+    // TODO ONE TIME INIT ONLY
+    //await init();
+    //await insertSiteCredentials();
 
 
-    
     if (fontsLoaded) { await SplashScreen.hideAsync(); }
   }, [fontsLoaded]);
   if (!fontsLoaded) { return null; }
@@ -68,7 +60,20 @@ function App() {
               fontWeight: 'bold',
             },
           }} />
-          <Stack.Screen name="ResultItem" component={ResultItem} options={{
+          <Stack.Screen
+            name='ResultItem'
+            component={ResultItem}
+            options={({ navigation, route }) => ({
+              headerStyle: {
+                backgroundColor: '#4d089a',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            })}
+          />
+          {/* <Stack.Screen name="ResultItem" component={ResultItem} options={{
             title: 'Site',
             headerStyle: {
               backgroundColor: '#4d089a',
@@ -77,7 +82,15 @@ function App() {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
-          }} />
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Icon
+                  name="arrow-back-sharp"
+                  size={22}
+                />
+              </TouchableOpacity>
+            ),
+          }} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </View>

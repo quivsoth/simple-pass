@@ -6,12 +6,10 @@
  */
 
 import React from 'react';
-import { FlatList, Pressable, View, } from 'react-native';
+import { BackHandler, FlatList, Pressable, View, } from 'react-native';
 import { Image } from 'expo-image';
 import { Icon, Text, TextInput, withTheme } from 'react-native-paper';
 import { getSites } from './Database';
-
-import * as SQLite from 'expo-sqlite';
 import { styles } from './styles';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
@@ -21,7 +19,7 @@ import { styles } from './styles';
 
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-function Search({ navigation }) {
+function Search({ navigation, route }) {
 
     const blurhash =
         '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -29,9 +27,7 @@ function Search({ navigation }) {
     const [searchText, setSearchText] = React.useState('');
     const [hasText, setHasText] = React.useState(false);
     const [payload, setPayload] = React.useState([]);
-
-    async function openDatabase() { return SQLite.openDatabase("arcticfox.db"); }
-
+    
     const renderItem = ({ item }) => {
         return (
             <Item item={item} onPress={() => { navigation.navigate('ResultItem', { item }) }} />
@@ -41,9 +37,9 @@ function Search({ navigation }) {
     const Item = ({ item, onPress }) => (
         <Pressable style={styles.pressable} onPress={onPress} >
             <View style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }]}>
-                <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', width: 70, height: 70, borderRadius: 200 / 2 }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', width: 50, height: 50, borderRadius: 200 / 2 }}>
                     <Image
-                        style={{ width: 70, height: 70, borderRadius: 200 / 2, borderColor: 'silver', borderWidth: 1 }}
+                        style={{ width: 50, height: 50, borderRadius: 200 / 2, borderColor: 'silver', borderWidth: 1 }}
                         source={`https://www.google.com/s2/favicons?domain=${item.uri}&sz=256`}
                         placeholder={blurhash}
                         contentFit="cover"
@@ -51,41 +47,30 @@ function Search({ navigation }) {
                     />
                     {/* <Text style={[styles.quicksand, { letterSpacing: 1, textTransform: 'uppercase', fontSize: 20 }]}>{item.sitename.slice(0, 2)}</Text> */}
                 </View>
-                <Text style={[styles.quicksand, { textAlign: 'left', textTransform: 'uppercase', fontSize: 18}]}>{item.sitename}</Text>
+                <Text style={[styles.quicksand, { textAlign: 'left', textTransform: 'uppercase', fontSize: 18 }]}>{item.sitename}</Text>
                 <Icon color="black" source="chevron-right" size={30} />
             </View>
         </Pressable>
     );
 
-    React.useEffect(function () {
 
-        getSites().then((result) => {
-            console.log('result::: ', result);
-            
-            setPayload(result);
-        });
-      
-        // openDatabase().then((db) => {
-        //     const result = [];
-        //     db.transaction((tx) => {
-        //         tx.executeSql(
-        //             "SELECT * FROM sites",
-        //             [],
-        //             (tx, resultSet) => {
-        //                 var length = resultSet.rows.length;
-        //                 for (var i = 0; i < length; i++) { result.push(resultSet.rows.item(i)); }
-        //                 setPayload(result);
-        //             // }, (error) => {
-        //                 //console.log("\u001b[1;31m DATABASE ERROR", "\x1b[30m", error);
-        //             }
-        //         )
-        //     });
-        // });
+    // React.useEffect(function () {
+    //     // console.log('oneData::: ', oneData);                
+    // }, [oneData]);
+
+
+
+    React.useEffect(function () {
+        getSites().then((result) => setPayload(result));
+        console.log('route.params::: ', route.params);
     }, []);
 
     React.useEffect(function () {
         if (searchText.length > 0) setHasText(true);
         if (searchText.length == 0) setHasText(false);
+        console.log('route::: ', route);
+  
+        // console.log('oneData::: ', oneData);
     }, [searchText]);
 
     return (
@@ -111,7 +96,4 @@ function Search({ navigation }) {
         </>
     )
 }
-
-//export default withTheme(Search);
-
-export default Search;
+export default withTheme(Search);

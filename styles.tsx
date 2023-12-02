@@ -13,6 +13,12 @@ export const styles = StyleSheet.create({
     column: {
         flexDirection: 'column',
     },
+    bgImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+    },
+
     image : {
         height: 50,
         width: 50,

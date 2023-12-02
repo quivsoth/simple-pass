@@ -6,46 +6,46 @@
  */
 
 import React from 'react';
-import { Pressable, View } from 'react-native';
-import { Button, Icon, Text, TextInput, useTheme, withTheme } from 'react-native-paper';
+import { BackHandler, Pressable, View } from 'react-native';
+import { Button, Icon, Text, TextInput, withTheme } from 'react-native-paper';
 
-import * as SQLite from 'expo-sqlite';
-import * as Clipboard from 'expo-clipboard';
 import uuid from 'react-native-uuid';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import * as Clipboard from 'expo-clipboard';
 
 import { styles } from './styles';
 import StyledButton from './StyledButton';
-
-
-
-
+import { updateCredentials } from './Database';
 
 function ResultItem({ route, navigation }) {
 
     const [enc, setEnc] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
     const [editMode, setEditMode] = React.useState(false);
+    const [item, setItem] = React.useState({});
+    
 
-    const item = route.params.item;
+
 
     const {
         control,
         handleSubmit,
         formState: { errors, isSubmitSuccessful },
+        setValue        
     } = useForm({
-        defaultValues: {
-            sitename: item.sitename,
-            uri: item.uri,
-            secret: item.secret,
-        },
+        defaultValues: {},
     })
 
+    const onSubmit = data => updateCredentials(item, data).then((result) => {            
+        if(result = 1) {
+            setEditMode(false);
+            setItem(data);
+        }
+        //TODO error
+    });
 
-    const onSubmit = data => UpdateCredentials(data);
 
-    const copyToClipboard = async (button) => {
-        console.log(button);
+    const copyToClipboard = async (button) => {        
         await Clipboard.setStringAsync(item.secret);
     };
 
@@ -55,41 +55,39 @@ function ResultItem({ route, navigation }) {
         if (showPassword) { setEnc(item.secret); }
     };
 
-    const toggleEditMode = () => { setEditMode(!editMode); };
+    const toggleEditMode = () => {         
+        setValue("sitename", item.sitename);
+        setValue("secret", item.secret);
+        setValue("uri", item.uri);  
+        setEditMode(!editMode);
+    };
 
+    React.useEffect(function () { }, [item]);
+    
 
-
-    const openDb = async() => {  return SQLite.openDatabase("arcticfox.db", "1.0");  }
-
-    const UpdateCredentials = async (data) => {
-        openDb().then((db) => {
-            let sql = `UPDATE sites SET sitename = 'po' WHERE siteId = 1`;
-            let params = [data.sitename, data.secret, data.uri, item.siteId]; //storing user data in an array
-            db.transaction((tx) => {
-                tx.executeSql( sql, params,
-                    (tx, resultSet) => {
-                        console.log("Status : ", resultSet);
-                        console.log("Success", "Credentials successfully.");
-                        setEditMode(false);
-                    }, (error) => {
-                        console.log( "\u001b[1;31m", error );
-                        console.log("\x1b[41m", "DATABASE ERROR", '\x1b[0m');
-                        return false;
-                    }
-                )
-            });
-        });        
-    }
-
-
-
+    React.useEffect(()=>{
+        console.log("bH")
+        BackHandler.addEventListener("hardwareBackPress",()=>{
+            navigation.navigate('Search', { pop: "POP" })
+        //You can add any other statements also 
+        return true;
+        })
+       },[])
 
 
     React.useEffect(function () {
+        //console.log("SINGLE LOAD");
+        setItem(route.params.item); 
         setShowPassword(!showPassword);
         setEnc(uuid.v4().slice(0, 13).toString());
-    }, []);
 
+
+        
+        //navigation.push('Search', {post: 'someText'});
+        //navigation.setParams({post: 'someText'});
+
+
+    }, []);
     return (
         <>
             <View style={[styles.row, { justifyContent: 'flex-end', paddingRight: 30, paddingTop: 30 }]}>
@@ -191,4 +189,4 @@ function ResultItem({ route, navigation }) {
     )
 };
 
-export default ResultItem;
+export default withTheme(ResultItem);
