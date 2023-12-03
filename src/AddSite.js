@@ -81,7 +81,7 @@ function AddSite({ navigation }) {
                 <View style={[styles.container, { paddingHorizontal: 30, alignItems:"center" }]}>
 
                     {/* <View> */}
-                    <Image style={styles.image} source={require('./assets/images/checkmark.png')} />
+                    <Image style={styles.image} source={require('../assets/images/checkmark.png')} />
                     <Text style={{marginBottom: 20}}>Your new credentials have been added! Would you like to add another credential?</Text>
 
                     <Button

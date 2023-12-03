@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { Icon, Text, withTheme } from 'react-native-paper';
-import { styles } from './styles';
+import { styles } from '../styles';
 
 
 const StyledButton = ({ onPress, icon, buttonText, iconSize }) => {
@@ -18,4 +18,4 @@ const StyledButton = ({ onPress, icon, buttonText, iconSize }) => {
 };
 
 
-export default StyledButton;
+export default withTheme(StyledButton);

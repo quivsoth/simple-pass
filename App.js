@@ -1,22 +1,21 @@
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Icon, withTheme } from 'react-native-paper';
+import { withTheme } from 'react-native-paper';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-
-import { init, getSites, insertSiteCredentials } from './Database';
-import { useBearStore } from './store';
+import { init, getSites, insertSiteCredentials } from './src/data/Database';
 
 
-import { styles } from './styles';
+
+import { styles } from './src/styles';
 // import FrontPage from './FrontPage';
-import Search from './Search';
-import AddSite from './AddSite';
-import ResultItem from './ResultItem';
+import Search from './src/Search';
+import AddSite from './src/AddSite';
+import ResultItem from './src/ResultItem';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 
@@ -73,24 +72,6 @@ function App() {
               },
             })}
           />
-          {/* <Stack.Screen name="ResultItem" component={ResultItem} options={{
-            title: 'Site',
-            headerStyle: {
-              backgroundColor: '#4d089a',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Icon
-                  name="arrow-back-sharp"
-                  size={22}
-                />
-              </TouchableOpacity>
-            ),
-          }} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </View>
@@ -98,14 +79,3 @@ function App() {
 }
 
 export default withTheme(App);
-
-
-function BearCounter() {
-  const bears = useStore((state) => state.bears)
-  return <h1>{bears} around here...</h1>
-}
-
-function Controls() {
-  const increasePopulation = useStore((state) => state.increasePopulation)
-  return <button onClick={increasePopulation}>one up</button>
-}

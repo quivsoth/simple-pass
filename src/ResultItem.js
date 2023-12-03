@@ -6,16 +6,19 @@
  */
 
 import React from 'react';
-import { BackHandler, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Button, Icon, Text, TextInput, withTheme } from 'react-native-paper';
 
 import uuid from 'react-native-uuid';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import * as Clipboard from 'expo-clipboard';
+import { shallow } from 'zustand/shallow';
 
 import { styles } from './styles';
-import StyledButton from './StyledButton';
-import { updateCredentials } from './Database';
+import StyledButton from './components/StyledButton';
+
+import { updateCredentials } from './data/Database';
+import { useReset, useStore } from "./store";
 
 function ResultItem({ route, navigation }) {
 
@@ -24,8 +27,11 @@ function ResultItem({ route, navigation }) {
     const [editMode, setEditMode] = React.useState(false);
     const [item, setItem] = React.useState({});
     
-
-
+    const { updateItem } = useStore(({ updateItem }) => ({        
+        updateItem,
+    }),
+        shallow
+    );
 
     const {
         control,
@@ -37,9 +43,12 @@ function ResultItem({ route, navigation }) {
     })
 
     const onSubmit = data => updateCredentials(item, data).then((result) => {            
+        data.siteId = item.siteId;  //need to reapply the siteid because data is formdata only
+        //TODO Date modified
         if(result = 1) {
             setEditMode(false);
             setItem(data);
+            updateItem(data);
         }
         //TODO error
     });
@@ -62,31 +71,16 @@ function ResultItem({ route, navigation }) {
         setEditMode(!editMode);
     };
 
-    React.useEffect(function () { }, [item]);
+
     
 
-    React.useEffect(()=>{
-        console.log("bH")
-        BackHandler.addEventListener("hardwareBackPress",()=>{
-            navigation.navigate('Search', { pop: "POP" })
-        //You can add any other statements also 
-        return true;
-        })
-       },[])
+    
 
 
     React.useEffect(function () {
-        //console.log("SINGLE LOAD");
         setItem(route.params.item); 
         setShowPassword(!showPassword);
         setEnc(uuid.v4().slice(0, 13).toString());
-
-
-        
-        //navigation.push('Search', {post: 'someText'});
-        //navigation.setParams({post: 'someText'});
-
-
     }, []);
     return (
         <>
