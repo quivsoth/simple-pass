@@ -9,6 +9,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 
 import { init, getSites, insertSiteCredentials } from './Database';
+import { useBearStore } from './store';
+
 
 import { styles } from './styles';
 // import FrontPage from './FrontPage';
@@ -30,8 +32,6 @@ function App() {
     // TODO ONE TIME INIT ONLY
     //await init();
     //await insertSiteCredentials();
-
-
     if (fontsLoaded) { await SplashScreen.hideAsync(); }
   }, [fontsLoaded]);
   if (!fontsLoaded) { return null; }
@@ -98,3 +98,14 @@ function App() {
 }
 
 export default withTheme(App);
+
+
+function BearCounter() {
+  const bears = useStore((state) => state.bears)
+  return <h1>{bears} around here...</h1>
+}
+
+function Controls() {
+  const increasePopulation = useStore((state) => state.increasePopulation)
+  return <button onClick={increasePopulation}>one up</button>
+}

@@ -6,11 +6,16 @@
  */
 
 import React from 'react';
-import { BackHandler, FlatList, Pressable, View, } from 'react-native';
+import { Button, FlatList, Pressable, View, } from 'react-native';
 import { Image } from 'expo-image';
 import { Icon, Text, TextInput, withTheme } from 'react-native-paper';
 import { getSites } from './Database';
 import { styles } from './styles';
+
+import { shallow } from 'zustand/shallow';
+import { useReset, useStore } from "./store";
+
+
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 
@@ -21,13 +26,22 @@ import { styles } from './styles';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function Search({ navigation, route }) {
 
+    const { items, addItem } = useStore(
+        ({ addItem, items }) => ({
+            items,
+            addItem,
+        }),
+        shallow
+    );
+
+
     const blurhash =
         '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
     const [searchText, setSearchText] = React.useState('');
     const [hasText, setHasText] = React.useState(false);
     const [payload, setPayload] = React.useState([]);
-    
+
     const renderItem = ({ item }) => {
         return (
             <Item item={item} onPress={() => { navigation.navigate('ResultItem', { item }) }} />
@@ -53,24 +67,26 @@ function Search({ navigation, route }) {
         </Pressable>
     );
 
+    React.useEffect(function () { getSites().then((result) => {
+        //setPayload(result)
+       
 
-    // React.useEffect(function () {
-    //     // console.log('oneData::: ', oneData);                
-    // }, [oneData]);
+        {result.map((item) => (
+            addItem(item) 
+          ))}
 
 
+          // let cln = [];
+        // for (var i = 0; i < length; i++) { 
+        //     console.log(result.rows.item(i));
+        //     cln.push(result.rows.item(i)); 
+        // }
 
-    React.useEffect(function () {
-        getSites().then((result) => setPayload(result));
-        console.log('route.params::: ', route.params);
-    }, []);
+    })},[]);
 
     React.useEffect(function () {
         if (searchText.length > 0) setHasText(true);
         if (searchText.length == 0) setHasText(false);
-        console.log('route::: ', route);
-  
-        // console.log('oneData::: ', oneData);
     }, [searchText]);
 
     return (
@@ -90,7 +106,10 @@ function Search({ navigation, route }) {
 
             {hasText ? (
                 <FlatList
-                    data={payload.filter((data) => data.sitename.includes(searchText.toLowerCase()))}
+                    data={
+                        
+                        
+                        payload.filter((data) => data.sitename.includes(searchText.toLowerCase()))}
                     renderItem={renderItem} />
             ) : null}
         </>
