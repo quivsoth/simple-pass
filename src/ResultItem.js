@@ -72,11 +72,6 @@ function ResultItem({ route, navigation }) {
     };
 
 
-    
-
-    
-
-
     React.useEffect(function () {
         setItem(route.params.item); 
         setShowPassword(!showPassword);

@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import { FlatList, View, } from 'react-native';
-import { Text, TextInput, withTheme } from 'react-native-paper';
+import { FlatList, Pressable, View, } from 'react-native';
+import { Icon,Text, TextInput, withTheme } from 'react-native-paper';
 
 import { shallow } from 'zustand/shallow';
 
@@ -36,7 +36,7 @@ function Search({ navigation, route }) {
     const [searchText, setSearchText] = React.useState('');
     const [hasText, setHasText] = React.useState(false);
 
-    const renderItem = ({ item }) => {        
+    const renderItem = ({ item }) => {
         return (
             <SearchResultItem item={item} onPress={() => { navigation.navigate('ResultItem', { item }) }} />
         );
@@ -54,6 +54,11 @@ function Search({ navigation, route }) {
 
     return (
         <>
+            <View style={[styles.row, { justifyContent: 'flex-end', paddingRight: 30, paddingTop: 30 }]}>
+                <Pressable onPress={() => navigation.navigate('AddSite')} >
+                    <Icon color="black" source="plus" size={30} />
+                </Pressable>
+            </View>
             <View style={[styles.row, { justifyContent: "center" }]}>
                 <Text style={[styles.title, { paddingTop: 20 }]}>Simple Pass</Text>
             </View>
@@ -68,8 +73,8 @@ function Search({ navigation, route }) {
 
             {hasText ? (
                 <FlatList
-                    data={resultItems.filter((data) => data.sitename.includes(searchText.toLowerCase()))}                    
-                    renderItem={renderItem} 
+                    data={resultItems.filter((data) => data.sitename.includes(searchText.toLowerCase()))}
+                    renderItem={renderItem}
                 />
             ) : null}
         </>

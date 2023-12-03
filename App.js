@@ -7,7 +7,7 @@ import { withTheme } from 'react-native-paper';
 
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { init, getSites, insertSiteCredentials } from './src/data/Database';
+import { init, getSites, bulkInsertSiteCredentials } from './src/data/Database';
 
 
 
@@ -30,7 +30,7 @@ function App() {
 
     // TODO ONE TIME INIT ONLY
     //await init();
-    //await insertSiteCredentials();
+    //await bulkInsertSiteCredentials();
     if (fontsLoaded) { await SplashScreen.hideAsync(); }
   }, [fontsLoaded]);
   if (!fontsLoaded) { return null; }

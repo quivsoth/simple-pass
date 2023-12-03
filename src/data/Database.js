@@ -45,7 +45,7 @@ export const getSites = async () => {
   });
 };
 
-export const insertSiteCredentials = async () => {
+export const bulkInsertSiteCredentials = async () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       let sql = `INSERT INTO sites (sitename, secret, uri, DateCreated, DateModified) VALUES
