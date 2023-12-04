@@ -12,6 +12,8 @@ export const useStore = createWithEqualityFn((set, get) => {
     updateItem(singleItem) {      
       set({ resultItems: get().resultItems.map((item) => (item.siteId === singleItem.siteId ? { ...item, ...singleItem } : item)) });                         
     },
+    // insertItem,
+    // deleteItem,
   });
 });
 

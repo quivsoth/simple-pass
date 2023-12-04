@@ -1,55 +1,51 @@
 import React from "react"
 import { Image, Pressable, View, } from "react-native"
-import { Button, Icon, Text, TextInput, useTheme, withTheme } from 'react-native-paper';
+import { Button, Icon, Text, TextInput, withTheme } from 'react-native-paper';
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
-
-import * as SQLite from 'expo-sqlite';
 import styles from './styles';
+import { createCredentials } from './data/Database';
+import { useStore } from "./store";
+
+import { shallow } from 'zustand/shallow';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-
-const ERROR_MESSAGES = {
-    REQUIRED: "Required",
-    NAME_INVALID: "Not a Valid Name",
-}
-
 
 
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function AddSite({ navigation }) {
 
-    const theme = useTheme();
     const [showPassword, setShowPassword] = React.useState(false);
     const [isSubmit, setIsSubmit] = React.useState(false);
 
-    const toggleShowPassword = () => { setShowPassword(!showPassword); };
-    const openDb = async() => {  return SQLite.openDatabase("arcticfox.db", "1.0");  }
+    const { resultItems, addItem } = useStore(({ addItem, resultItems }) => ({
+        resultItems,
+        addItem,
+    }),
+        shallow
+    );
+
+
+
+    const toggleShowPassword = () => { setShowPassword(!showPassword); };    
     const onSubmit = data => AddCredentials(data)
-
-    const AddCredentials = async (data) => {
-        console.log(data);
-        openDb().then((db) => {
-            let sql = "INSERT INTO sites (sitename, secret, uri) VALUES (?, ?, ?)";
-            let params = [data.sitename, data.secret, data.uri]; //storing user data in an array
-            db.transaction((tx) => {
-                tx.executeSql(
-                    sql,
-                    params,
-                    (tx, resultSet) => {
-                        console.log("Status : ", resultSet);
-                        console.log("Success", "Credentials created successfully.");
-                        setIsSubmit(true);
-                    }, (error) => {
-                        console.log( "\u001b[1;31m Red message" );
-
-                        console.log("\x1b[41m", "DATABASE ERROR", '\x1b[0m');
-                        
-                    }
-                )
-            });
-        });        
-    }
+ 
+    const AddCredentials = data => createCredentials(data).then((result) => {            
+        console.log('result::: ', result.rowsAffected);
+        if(result.rowsAffected > 0) {
+            var item = {
+                siteId: result.insertId,
+                sitename: data.sitename,
+                uri: data.uri,
+                secret: data.secret
+            };  
+            
+            //add state here
+            addItem(item);
+            control._reset();
+            navigation.navigate('ResultItem', { item })
+        }
+    });
 
 
     const {
@@ -66,14 +62,14 @@ function AddSite({ navigation }) {
 
     const startAgain = () => { setIsSubmit(false); }
 
-    React.useEffect(() => {
-        if (isSubmitSuccessful) {
-            control._reset();
-        }
-    },);
+    // React.useEffect(() => {
+    //     if (isSubmitSuccessful) {
+    //         control._reset();
+    //     }
+    // },);
 
     return (
-        <>
+        <View style={{paddingLeft: 30, paddingTop:30 }}> 
             <View style={[styles.row, { justifyContent: 'center' }]}>
                 <Text style={styles.title}>New Credentials</Text>
             </View>
@@ -172,7 +168,7 @@ function AddSite({ navigation }) {
                     </View>
                 </>
             ) : null}
-        </>
+        </View>
     );
 }
 

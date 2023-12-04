@@ -29,7 +29,7 @@ function App() {
   const onLayoutRootView = React.useCallback(async () => {
 
     // TODO ONE TIME INIT ONLY
-    //await init();
+    await init();
     //await bulkInsertSiteCredentials();
     if (fontsLoaded) { await SplashScreen.hideAsync(); }
   }, [fontsLoaded]);
@@ -63,6 +63,7 @@ function App() {
             name='ResultItem'
             component={ResultItem}
             options={({ navigation, route }) => ({
+              title: 'Site Credentials',
               headerStyle: {
                 backgroundColor: '#4d089a',
               },
