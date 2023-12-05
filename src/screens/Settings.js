@@ -1,11 +1,14 @@
 import * as React from 'react';
+import { View, } from 'react-native';
 import { Text, withTheme } from 'react-native-paper';
 
-
+import { styles } from '../styles';
 function Settings({ navigation }) {
     return (
         <>
-              <Text>COMING SOON</Text>
+               <View style={[styles.row, { justifyContent: "center" }]}>
+                <Text style={[styles.title, { paddingTop: 20 }]}>Prefs</Text>
+            </View>
         </>
     )
 }

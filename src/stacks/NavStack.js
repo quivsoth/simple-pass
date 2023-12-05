@@ -30,11 +30,12 @@ export const SearchNavStack = () => {
                     {
                         title: 'Site Credentials',
                         headerStyle: {
-                            backgroundColor: '#4d089a',
+                            backgroundColor: '#4d089a',                            
                         },
                         headerTintColor: '#fff',
                         headerTitleStyle: {
                             fontWeight: 'bold',
+                            //fontFamily: 'Quicksand'
                         },
                         headerBackTitle: 'Search',
                     }

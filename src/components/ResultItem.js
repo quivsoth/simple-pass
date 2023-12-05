@@ -17,8 +17,8 @@ import { shallow } from 'zustand/shallow';
 import { styles } from '../styles';
 import StyledButton from './StyledButton';
 
-import { updateCredentials } from '../data/Database';
-import { useReset, useStore } from "../store";
+import { updateCredentials, deleteCredentials } from '../data/Database';
+import { useStore } from "../store";
 
 function ResultItem({ route, navigation }) {
 
@@ -53,6 +53,12 @@ function ResultItem({ route, navigation }) {
         //TODO error
     });
 
+    const deleteItem = () => deleteCredentials(item.siteId).then((result) => {
+        if(result = 1) {
+            //update state TODO
+            navigation.navigate('Search');
+        }
+    });
 
     const copyToClipboard = async (button) => {        
         await Clipboard.setStringAsync(item.secret);
@@ -171,6 +177,7 @@ function ResultItem({ route, navigation }) {
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <StyledButton icon={"eye"} iconSize={55} buttonText={"reveal"} onPress={() => { toggleShowPassword() }} />
                         <StyledButton icon={"clipboard-multiple-outline"} iconSize={55} buttonText={"CLIPBOARD"} onPress={() => { copyToClipboard(this) }} />
+                        <StyledButton icon={"delete"} iconSize={55} buttonText={"DELETE"} onPress={() => { deleteItem(this) }} />
                     </View>
                 </View >
             </>) : null}

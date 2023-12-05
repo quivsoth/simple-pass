@@ -132,3 +132,25 @@ export const updateCredentials = async (item, data) => {
     });
   });
 }
+
+export const deleteCredentials = async (siteId) => {
+  return new Promise((resolve, reject) => {
+    let sql = `DELETE FROM sites WHERE siteId = ?`;
+    let params = [siteId]; //storing user data in an array
+    db.transaction(tx => {
+      sql,
+      params,
+      tx.executeSql(
+        sql,
+        params,
+        (tx, { rowsAffected }) => {               
+          resolve(rowsAffected);
+        },
+        (txObj, error) => {
+          console.log('Error ', error);
+          reject(error);
+        },
+      );
+    });
+  });
+}
