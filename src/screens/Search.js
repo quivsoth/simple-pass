@@ -6,16 +6,15 @@
  */
 
 import React from 'react';
-import { FlatList, Pressable, View, } from 'react-native';
-import { Icon,Text, TextInput, withTheme } from 'react-native-paper';
-
+import { FlatList, View, } from 'react-native';
+import { Text, TextInput, withTheme } from 'react-native-paper';
 import { shallow } from 'zustand/shallow';
 
-import { useReset, useStore } from "./store";
-import { getSites } from './data/Database';
+import { useStore } from "../store";
+import { getSites } from '../data/Database';
 
-import { styles } from './styles';
-import SearchResultItem from './components/SearchResultItem';
+import { styles } from '../styles';
+import SearchResultItem from '../components/SearchResultItem';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 
@@ -54,11 +53,7 @@ function Search({ navigation, route }) {
 
     return (
         <>
-            <View style={[styles.row, { justifyContent: 'flex-end', paddingRight: 30, paddingTop: 30 }]}>
-                <Pressable onPress={() => navigation.navigate('AddSite')} >
-                    <Icon color="black" source="plus" size={30} />
-                </Pressable>
-            </View>
+           
             <View style={[styles.row, { justifyContent: "center" }]}>
                 <Text style={[styles.title, { paddingTop: 20 }]}>Simple Pass</Text>
             </View>

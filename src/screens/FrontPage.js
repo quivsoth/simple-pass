@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Text, withTheme } from 'react-native-paper';
 import { View } from 'react-native';
 
-import StyledButton from './components/StyledButton';
-import { styles } from './styles';
+import StyledButton from '../components/StyledButton';
+import { styles } from '../styles';
 
 function FrontPage({ navigation }) {
     return (

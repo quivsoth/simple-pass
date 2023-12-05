@@ -14,11 +14,11 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import * as Clipboard from 'expo-clipboard';
 import { shallow } from 'zustand/shallow';
 
-import { styles } from './styles';
-import StyledButton from './components/StyledButton';
+import { styles } from '../styles';
+import StyledButton from './StyledButton';
 
-import { updateCredentials } from './data/Database';
-import { useReset, useStore } from "./store";
+import { updateCredentials } from '../data/Database';
+import { useReset, useStore } from "../store";
 
 function ResultItem({ route, navigation }) {
 
