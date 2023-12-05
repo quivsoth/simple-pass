@@ -29,7 +29,7 @@ function AddSite({ navigation }) {
     const onSubmit = data => AddCredentials(data)
 
     const AddCredentials = data => createCredentials(data).then((result) => {
-        console.log('result::: ', result.rowsAffected);
+        console.log("INSERTED");
         if (result.rowsAffected > 0) {
             var item = {
                 siteId: result.insertId,

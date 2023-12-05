@@ -18,7 +18,7 @@ import { styles } from '../styles';
 import StyledButton from './StyledButton';
 
 import { updateCredentials, deleteCredentials } from '../data/Database';
-import { useStore } from "../store";
+import { useStore, useCounter } from "../store";
 
 function ResultItem({ route, navigation }) {
 
@@ -26,9 +26,16 @@ function ResultItem({ route, navigation }) {
     const [showPassword, setShowPassword] = React.useState(false);
     const [editMode, setEditMode] = React.useState(false);
     const [item, setItem] = React.useState({});
-    
-    const { updateItem } = useStore(({ updateItem }) => ({        
+
+    const counter = useCounter((state) => state.counter);
+    const incrCounter = useCounter((state) => state.incrCounter);
+    const state = useCounter();
+
+    const { getItems, updateItem, deleteItem, resultItems, } = useStore(({ getItems, updateItem, deleteItem, resultItems, }) => ({
         updateItem,
+        deleteItem,
+        resultItems,
+        getItems,
     }),
         shallow
     );
@@ -37,15 +44,16 @@ function ResultItem({ route, navigation }) {
         control,
         handleSubmit,
         formState: { errors, isSubmitSuccessful },
-        setValue        
+        setValue
     } = useForm({
         defaultValues: {},
     })
 
-    const onSubmit = data => updateCredentials(item, data).then((result) => {            
+    const onSubmit = data => updateCredentials(item, data).then((result) => {
         data.siteId = item.siteId;  //need to reapply the siteid because data is formdata only
         //TODO Date modified
-        if(result = 1) {
+        if (result = 1) {
+            console.log("UPDATED");
             setEditMode(false);
             setItem(data);
             updateItem(data);
@@ -53,14 +61,16 @@ function ResultItem({ route, navigation }) {
         //TODO error
     });
 
-    const deleteItem = () => deleteCredentials(item.siteId).then((result) => {
-        if(result = 1) {
-            //update state TODO
-            navigation.navigate('Search');
+    const deleteCredential = () => deleteCredentials(item.siteId).then((result) => {
+        if(result = 1) {      
+            console.log("DELETED");
+            deleteItem(item.siteId);
+            navigation.navigate('Search');                        
         }
+        //TODO error
     });
 
-    const copyToClipboard = async (button) => {        
+    const copyToClipboard = async (button) => {
         await Clipboard.setStringAsync(item.secret);
     };
 
@@ -70,16 +80,15 @@ function ResultItem({ route, navigation }) {
         if (showPassword) { setEnc(item.secret); }
     };
 
-    const toggleEditMode = () => {         
+    const toggleEditMode = () => {
         setValue("sitename", item.sitename);
         setValue("secret", item.secret);
-        setValue("uri", item.uri);  
+        setValue("uri", item.uri);
         setEditMode(!editMode);
     };
 
-
     React.useEffect(function () {
-        setItem(route.params.item); 
+        setItem(route.params.item);
         setShowPassword(!showPassword);
         setEnc(uuid.v4().slice(0, 13).toString());
     }, []);
@@ -92,8 +101,8 @@ function ResultItem({ route, navigation }) {
             </View>
 
             {editMode ? (<>
-                <View style={{paddingLeft: 30}}>
-                    <Text style={{ textAlign:'left', paddingTop: 15, paddingBottom:15, fontSize: 20, fontWeight: 'bold', }}>Edit</Text>
+                <View style={{ paddingLeft: 30 }}>
+                    <Text style={{ textAlign: 'left', paddingTop: 15, paddingBottom: 15, fontSize: 20, fontWeight: 'bold', }}>Edit</Text>
                     <Controller
                         name="sitename"
                         control={control}
@@ -106,7 +115,7 @@ function ResultItem({ route, navigation }) {
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value} />
-                        )}                        
+                        )}
                     />
                     {errors.sitename && <Text style={{ color: 'red', textAlign: 'right', paddingRight: 40 }}>This is required.</Text>}
 
@@ -141,7 +150,7 @@ function ResultItem({ route, navigation }) {
                                     value={value}
                                     autoCapitalize='none'
                                     secureTextEntry={showPassword} />
-                            )}                            
+                            )}
                         />
                         {/* <Pressable onPress={() => { toggleShowPassword() }} style={styles.pwIcon}>
                             <Icon color="black" source="eye" size={30} />
@@ -177,8 +186,9 @@ function ResultItem({ route, navigation }) {
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <StyledButton icon={"eye"} iconSize={55} buttonText={"reveal"} onPress={() => { toggleShowPassword() }} />
                         <StyledButton icon={"clipboard-multiple-outline"} iconSize={55} buttonText={"CLIPBOARD"} onPress={() => { copyToClipboard(this) }} />
-                        <StyledButton icon={"delete"} iconSize={55} buttonText={"DELETE"} onPress={() => { deleteItem(this) }} />
+                        <StyledButton icon={"delete"} iconSize={55} buttonText={"DELETE"} onPress={() => { deleteCredential() }} />                        
                     </View>
+
                 </View >
             </>) : null}
         </>

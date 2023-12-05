@@ -55,7 +55,7 @@ function Search({ navigation, route }) {
         <>
            
             <View style={[styles.row, { justifyContent: "center" }]}>
-                <Text style={[styles.title, { paddingTop: 20 }]}>Simple Pass</Text>
+                <Text style={[styles.title, styles.quicksand, { paddingTop: 20 }]}>Simple Pass</Text>
             </View>
             <View style={[styles.row, { justifyContent: "center" }]}>
                 <TextInput
@@ -65,13 +65,11 @@ function Search({ navigation, route }) {
                     value={searchText}
                 />
             </View>
-
-            {hasText ? (
-                <FlatList
+            <FlatList
                     data={resultItems.filter((data) => data.sitename.includes(searchText.toLowerCase()))}
                     renderItem={renderItem}
                 />
-            ) : null}
+            {/* {hasText ? (  ) : null} */}
         </>
     )
 }
