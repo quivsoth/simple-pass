@@ -16,20 +16,16 @@ import { shallow } from 'zustand/shallow';
 function AddSite({ navigation }) {
 
     const [showPassword, setShowPassword] = React.useState(false);
-    const { resultItems, addItem } = useStore(({ addItem, resultItems }) => ({
-        resultItems,
+    const { addItem } = useStore(({ addItem }) => ({
         addItem,
     }),
         shallow
     );
 
-
-
     const toggleShowPassword = () => { setShowPassword(!showPassword); };
     const onSubmit = data => AddCredentials(data)
 
     const AddCredentials = data => createCredentials(data).then((result) => {
-        console.log("INSERTED");
         if (result.rowsAffected > 0) {
             var item = {
                 siteId: result.insertId,
@@ -38,7 +34,6 @@ function AddSite({ navigation }) {
                 secret: data.secret
             };
 
-            //add state here
             addItem(item);
             control._reset();
             navigation.navigate('ResultItem', { item })
@@ -57,12 +52,6 @@ function AddSite({ navigation }) {
             secret: "",
         },
     })    
-
-    // React.useEffect(() => {
-    //     if (isSubmitSuccessful) {
-    //         control._reset();
-    //     }
-    // },);
 
     return (
         <View style={{ paddingLeft: 30, paddingTop: 30 }}>

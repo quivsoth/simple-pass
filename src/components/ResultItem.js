@@ -53,7 +53,6 @@ function ResultItem({ route, navigation }) {
         data.siteId = item.siteId;  //need to reapply the siteid because data is formdata only
         //TODO Date modified
         if (result = 1) {
-            console.log("UPDATED");
             setEditMode(false);
             setItem(data);
             updateItem(data);
@@ -63,7 +62,6 @@ function ResultItem({ route, navigation }) {
 
     const deleteCredential = () => deleteCredentials(item.siteId).then((result) => {
         if(result = 1) {      
-            console.log("DELETED");
             deleteItem(item.siteId);
             navigation.navigate('Search');                        
         }

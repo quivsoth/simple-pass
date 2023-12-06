@@ -15,7 +15,6 @@ import { init, getSites, bulkInsertSiteCredentials } from './src/data/Database';
 import { SearchNavStack, AddSiteNavStack, ProfileNavStack, SettingsNavStack } from './src/stacks/NavStack';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-
 const Tab = createBottomTabNavigator();
 //const Tab = createMaterialBottomTabNavigator();
 
@@ -43,7 +42,6 @@ function App() {
   
   return (
     <View style={[styles.container, styles.quicksand]} onLayout={onLayoutRootView}>
-   
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName="Feed"
@@ -94,15 +92,10 @@ function App() {
               ),
             }}
           />
-
-
         </Tab.Navigator>
       </NavigationContainer>
-      
     </View>
   );
 }
 
 export default withTheme(App);
-
-
