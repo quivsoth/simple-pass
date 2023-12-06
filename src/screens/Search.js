@@ -8,10 +8,9 @@
 import React from 'react';
 import { FlatList, View, } from 'react-native';
 import { Text, TextInput, withTheme } from 'react-native-paper';
-import { shallow } from 'zustand/shallow';
 
-import { useStore } from "../store";
-import { getSites } from '../data/Database';
+import { useStore } from '../store';
+import { shallow } from 'zustand/shallow';
 
 import { styles } from '../styles';
 import SearchResultItem from '../components/SearchResultItem';
@@ -25,13 +24,7 @@ import SearchResultItem from '../components/SearchResultItem';
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 function Search({ navigation, route }) {
 
-    const { resultItems, addItem } = useStore(({ addItem, resultItems }) => ({
-        resultItems,
-        addItem,
-    }),
-        shallow
-    );
-
+    const { resultItems } = useStore(({ resultItems }) => ({resultItems,}),shallow);
     const [searchText, setSearchText] = React.useState('');
     const [hasText, setHasText] = React.useState(false);
 
@@ -41,11 +34,6 @@ function Search({ navigation, route }) {
         );
     };
 
-
-    React.useEffect(function () {
-        getSites().then(result => result.map(item => addItem(item)))
-    }, []);
-
     React.useEffect(function () {
         if (searchText.length > 0) setHasText(true);
         if (searchText.length == 0) setHasText(false);
@@ -53,11 +41,10 @@ function Search({ navigation, route }) {
 
     return (
         <>
-           
             <View style={[styles.row, { justifyContent: "center" }]}>
                 <Text style={[styles.title, styles.quicksand, { paddingTop: 20 }]}>Simple Pass</Text>
             </View>
-            <View style={[styles.row, { justifyContent: "center" }]}>
+            <View style={[styles.row, { justifyContent: "center", }]}>
                 <TextInput
                     style={styles.input}
                     placeholder='search for site..'

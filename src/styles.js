@@ -5,7 +5,7 @@ import { useFonts } from 'expo-font';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        fontFamily: 'Quicksand-Regular'
+        fontFamily: 'Quicksand-Regular',
     },
     row: {
         flexDirection: 'row',
